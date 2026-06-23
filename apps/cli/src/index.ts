@@ -1,6 +1,7 @@
 import { initObservability } from "@ai-agents/observability";
 import { classifier } from "@ai-agents/classifier";
 import { runEval, printEvalReport } from "@ai-agents/evals";
+import { resolveModel } from "@ai-agents/shared";
 import type { AgentRunner } from "@ai-agents/core";
 import { resolve } from "path";
 import { fileURLToPath } from "url";
@@ -69,7 +70,8 @@ async function main() {
       process.exit(1);
     }
     const { classifier: cls } = await import("@ai-agents/classifier");
-    const summary = await runEval(cls, datasetPath, flags.model);
+    const resolvedModel = flags.model ? resolveModel(flags.model) : undefined;
+    const summary = await runEval(cls, datasetPath, resolvedModel);
     printEvalReport(summary);
   } else {
     console.error(`Unknown subcommand: ${subcommand}. Use "run" or "eval".`);

@@ -65,6 +65,9 @@ importers:
       '@ai-agents/observability':
         specifier: workspace:*
         version: link:../../packages/observability
+      '@ai-agents/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
 
   packages/core:
     dependencies:
