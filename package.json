@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "cls": "tsx apps/cli/src/index.ts run classifier",
-    "eval:cls": "tsx apps/cli/src/index.ts eval classifier",
+    "cls": "tsx --env-file=.env apps/cli/src/index.ts run classifier",
+    "eval:cls": "tsx --env-file=.env apps/cli/src/index.ts eval classifier",
     "lint": "eslint packages apps agents",
     "format": "prettier --write packages apps agents",
     "typecheck": "tsc --noEmit -p tsconfig.json"

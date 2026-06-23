@@ -1,0 +1,15 @@
+{"subject":"URGENT: prod API returning 500s","body":"All checkout calls failing since 14:02. Revenue impacted.","from":"oncall@acme.io","expected":"high"}
+{"subject":"Security breach detected","body":"We have evidence of unauthorized access to the customer database. Immediate action required.","from":"security@acme.io","expected":"high"}
+{"subject":"Invoice #4471 overdue","body":"Payment was due 3 days ago. Please settle today to avoid service interruption.","from":"billing@vendor.com","expected":"high"}
+{"subject":"Your server will be terminated in 24h","body":"Your unpaid balance of $240 will result in account suspension at midnight tomorrow.","from":"billing@cloudhost.io","expected":"high"}
+{"subject":"Re: Project timeline","body":"Hi, just checking in — are we still on track for the Q3 deadline? Let me know if anything has changed.","from":"pm@client.com","expected":"normal"}
+{"subject":"Question about the API docs","body":"Hi team, I was looking at the authentication section and couldn't find how to refresh tokens. Could you point me to the right page?","from":"dev@partner.com","expected":"normal"}
+{"subject":"Meeting reschedule request","body":"Would it be possible to move our Friday sync to Monday? I have a conflict at 2pm.","from":"colleague@acme.io","expected":"normal"}
+{"subject":"Feedback on last sprint","body":"Good work overall. A few things I'd like to discuss at the next retro — nothing urgent, just process improvements.","expected":"normal"}
+{"subject":"Could you review this PR when you get a chance?","body":"No rush, just a small refactor. Happy to wait until next week if you're busy.","from":"dev@acme.io","expected":"normal"}
+{"subject":"Lunch next week?","body":"Are you free Tue or Wed? Would be great to catch up.","expected":"low"}
+{"subject":"Your weekly newsletter","body":"Here's what's happening in the world of TypeScript this week: new releases, community posts, and upcoming events.","from":"newsletter@typescript.io","expected":"low"}
+{"subject":"Your order has shipped","body":"Your order #88234 has been dispatched and will arrive in 3-5 business days.","from":"noreply@shop.com","expected":"low"}
+{"subject":"New follower on GitHub","body":"user123 is now following you on GitHub.","from":"noreply@github.com","expected":"low"}
+{"subject":"Friendly reminder: docs update","body":"Just a heads-up that we plan to update the onboarding docs next quarter. No action needed from your side — we'll share the final version when ready.","from":"docs@acme.io","expected":"low"}
+{"subject":"We need this sorted before end of day","body":"Hi, I know it sounds casual but we promised the client a fix for the login issue by 5pm today. Can someone look at it?","from":"support@acme.io","expected":"high"}
