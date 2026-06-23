@@ -42,16 +42,16 @@ export const classifier: AgentRunner<ClassifierInput, ClassifierOutput> = {
     });
     const output = response.object as ClassifierOutput;
     const usage = response.usage as
-      | { promptTokens?: number; completionTokens?: number }
+      | { inputTokens?: number; outputTokens?: number }
       | undefined;
     return {
       output,
       meta: {
         usage:
-          usage?.promptTokens !== undefined
+          usage?.inputTokens !== undefined
             ? {
-                promptTokens: usage.promptTokens,
-                completionTokens: usage.completionTokens ?? 0,
+                inputTokens: usage.inputTokens,
+                outputTokens: usage.outputTokens ?? 0,
               }
             : undefined,
       },

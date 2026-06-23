@@ -8,8 +8,8 @@ export interface RunOptions {
 
 export interface RunMeta {
   usage?: {
-    promptTokens: number;
-    completionTokens: number;
+    inputTokens: number;
+    outputTokens: number;
   };
 }
 
