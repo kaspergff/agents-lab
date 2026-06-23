@@ -1,2 +1,4 @@
 // Eval runner — filled in Step 6
-export type {};
+import type { AgentRunner } from "@ai-agents/core";
+
+export type { AgentRunner };
