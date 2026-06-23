@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@ai-agents/core": ["./packages/core/src/index.ts"],
+      "@ai-agents/shared": ["./packages/shared/src/index.ts"],
+      "@ai-agents/observability": ["./packages/observability/src/index.ts"],
+      "@ai-agents/evals": ["./packages/evals/src/index.ts"],
+      "@ai-agents/classifier": ["./agents/classifier/src/index.ts"]
+    }
+  },
+  "include": [
+    "packages/*/src/**/*.ts",
+    "agents/*/src/**/*.ts",
+    "apps/*/src/**/*.ts"
+  ]
+}

@@ -1,0 +1,7 @@
+packages:
+  - "packages/*"
+  - "agents/*"
+  - "apps/*"
+allowBuilds:
+  esbuild: true
+  protobufjs: true

@@ -1,0 +1,16 @@
+{
+  "name": "@ai-agents/classifier",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@ai-agents/core": "workspace:*",
+    "@ai-agents/shared": "workspace:*",
+    "@mastra/core": "latest",
+    "zod": "^4.0.0"
+  }
+}
