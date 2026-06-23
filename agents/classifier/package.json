@@ -10,7 +10,7 @@
   "dependencies": {
     "@ai-agents/core": "workspace:*",
     "@ai-agents/shared": "workspace:*",
-    "@mastra/core": "latest",
+    "@mastra/core": "1.45.0",
     "zod": "^4.0.0"
   }
 }

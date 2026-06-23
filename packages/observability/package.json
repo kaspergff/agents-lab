@@ -8,8 +8,8 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@mastra/core": "latest",
-    "@mastra/langfuse": "latest",
-    "@mastra/observability": "latest"
+    "@mastra/core": "1.45.0",
+    "@mastra/langfuse": "1.4.0",
+    "@mastra/observability": "1.15.0"
   }
 }

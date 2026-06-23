@@ -64,6 +64,7 @@ export async function runEval<TInput extends { subject: string; body: string; fr
       inputTokens = meta.usage?.inputTokens ?? 0;
       outputTokens = meta.usage?.outputTokens ?? 0;
     } else {
+      console.warn(`[evals] Agent "${agent.id}" has no runWithMeta — token counts will be 0`);
       const output = await agent.run(input, opts);
       predicted = output.priority;
       confidence = output.confidence;

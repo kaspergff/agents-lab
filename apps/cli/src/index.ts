@@ -36,7 +36,7 @@ async function main() {
   const flags = parseArgs(rest);
 
   if (!subcommand || !agentId) {
-    console.error("Usage: cli run <agent> [--subject ...] [--body ...] [--from ...] [--model ...]");
+    console.error("Usage: cli run <agent> [--<input-field> <value> ...] [--model ...]");
     console.error("       cli eval <agent> [--model ...]");
     process.exit(1);
   }
@@ -48,30 +48,18 @@ async function main() {
   }
 
   if (subcommand === "run") {
-    if (agentId === "classifier") {
-      if (!flags.subject || !flags.body) {
-        console.error("classifier requires --subject and --body");
-        process.exit(1);
-      }
-      const { classifier: cls } = await import("@ai-agents/classifier");
-      const result = await cls.run(
-        { subject: flags.subject, body: flags.body, from: flags.from },
-        flags.model ? { model: flags.model } : undefined,
-      );
-      console.log(JSON.stringify(result, null, 2));
-    } else {
-      console.error(`run not implemented for agent: ${agentId}`);
-      process.exit(1);
-    }
+    const { model, ...inputFlags } = flags;
+    const result = await agent.run(inputFlags, model ? { model } : undefined);
+    console.log(JSON.stringify(result, null, 2));
   } else if (subcommand === "eval") {
     const datasetPath = EVAL_DATASETS[agentId];
     if (!datasetPath) {
       console.error(`No eval dataset found for agent: ${agentId}`);
       process.exit(1);
     }
-    const { classifier: cls } = await import("@ai-agents/classifier");
     const resolvedModel = flags.model ? resolveModel(flags.model) : undefined;
-    const summary = await runEval(cls, datasetPath, resolvedModel);
+    type EvalAgent = AgentRunner<{ subject: string; body: string; from?: string }, { priority: string; confidence: number; reason: string }>;
+    const summary = await runEval(agent as EvalAgent, datasetPath, resolvedModel);
     printEvalReport(summary);
   } else {
     console.error(`Unknown subcommand: ${subcommand}. Use "run" or "eval".`);

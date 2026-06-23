@@ -13,6 +13,15 @@ function formatPrompt(input: ClassifierInput): string {
   return `${from}Subject: ${input.subject}\n\n${input.body}`;
 }
 
+function isUsage(u: unknown): u is { inputTokens: number; outputTokens?: number } {
+  return (
+    typeof u === "object" &&
+    u !== null &&
+    "inputTokens" in u &&
+    typeof (u as Record<string, unknown>).inputTokens === "number"
+  );
+}
+
 export const classifier: AgentRunner<ClassifierInput, ClassifierOutput> = {
   id: "classifier",
   name: "Email Urgency Classifier",
@@ -21,13 +30,8 @@ export const classifier: AgentRunner<ClassifierInput, ClassifierOutput> = {
   outputSchema: ClassifierOutputSchema,
 
   async run(input: ClassifierInput, opts?: RunOptions): Promise<ClassifierOutput> {
-    const model = resolveModel(opts?.model ?? this.defaultModel);
-    const agent = buildClassifierAgent(model);
-    const prompt = formatPrompt(input);
-    const response = await agent.generate(prompt, {
-      structuredOutput: { schema: ClassifierOutputSchema },
-    });
-    return response.object as ClassifierOutput;
+    const { output } = await this.runWithMeta!(input, opts);
+    return output;
   },
 
   async runWithMeta(
@@ -40,20 +44,14 @@ export const classifier: AgentRunner<ClassifierInput, ClassifierOutput> = {
     const response = await agent.generate(prompt, {
       structuredOutput: { schema: ClassifierOutputSchema },
     });
-    const output = response.object as ClassifierOutput;
-    const usage = response.usage as
-      | { inputTokens?: number; outputTokens?: number }
-      | undefined;
+    const output = ClassifierOutputSchema.parse(response.object);
+    const rawUsage = response.usage;
     return {
       output,
       meta: {
-        usage:
-          usage?.inputTokens !== undefined
-            ? {
-                inputTokens: usage.inputTokens,
-                outputTokens: usage.outputTokens ?? 0,
-              }
-            : undefined,
+        usage: isUsage(rawUsage)
+          ? { inputTokens: rawUsage.inputTokens, outputTokens: rawUsage.outputTokens ?? 0 }
+          : undefined,
       },
     };
   },

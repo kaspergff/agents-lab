@@ -1,19 +1,31 @@
 import { Mastra } from "@mastra/core";
 import { Observability } from "@mastra/observability";
 
-let _mastraInstance: Mastra | null = null;
-let initialized = false;
+let _initPromise: Promise<Mastra> | null = null;
+// Synchronous reference populated once the promise resolves, so getMastra()
+// can stay synchronous after initObservability() has been awaited.
+let _resolvedInstance: Mastra | null = null;
 
 /**
  * Call once at app startup. Sets up OTel tracing.
  * Langfuse export is optional — if LANGFUSE_PUBLIC_KEY is absent the app
  * runs without it (Mastra Studio via `mastra dev` captures traces locally).
  */
-export async function initObservability(): Promise<Mastra> {
-  if (initialized && _mastraInstance) return _mastraInstance;
+export function initObservability(): Promise<Mastra> {
+  if (!_initPromise) {
+    _initPromise = doInit().then((m) => {
+      _resolvedInstance = m;
+      return m;
+    });
+  }
+  return _initPromise;
+}
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const exporters: any[] = [];
+async function doInit(): Promise<Mastra> {
+  type LangfuseExporterInstance = InstanceType<
+    (typeof import("@mastra/langfuse"))["LangfuseExporter"]
+  >;
+  const exporters: LangfuseExporterInstance[] = [];
 
   if (process.env.LANGFUSE_PUBLIC_KEY) {
     const { LangfuseExporter } = await import("@mastra/langfuse");
@@ -33,14 +45,12 @@ export async function initObservability(): Promise<Mastra> {
         })
       : undefined;
 
-  _mastraInstance = new Mastra(observability ? { observability } : {});
-  initialized = true;
-  return _mastraInstance;
+  return new Mastra(observability ? { observability } : {});
 }
 
 export function getMastra(): Mastra {
-  if (!_mastraInstance) {
-    _mastraInstance = new Mastra();
+  if (!_resolvedInstance) {
+    _resolvedInstance = new Mastra();
   }
-  return _mastraInstance;
+  return _resolvedInstance;
 }
